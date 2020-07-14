@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html"%}
+
+{%block title%}
+Add a Listing!!!
+{%endblock%}
+{% block body%}
+<h1>Create Listing!!!</h1>
+    <form action="/listing/new" method = "post">
+        {% csrf_token %}
+        <label for="">Title <br><input type="text" name="title"></label>
+        <br>
+        <label for="">Description <br>
+            <textarea name="description" id="" cols="25" rows="5"></textarea>
+        <br>
+        <label for="">Base bid <br>
+            <input type="text" name="base_bid"></label>
+        <br>
+        <label for="">Url <br>
+             <input type="text" name="url"></label>
+        <br>
+        <label for="">Category <br>
+            <input type="text" name="category"></label>
+        <br>
+        <input type="submit">
+    </form>
+{% endblock %}

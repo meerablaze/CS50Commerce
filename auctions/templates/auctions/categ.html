@@ -1,0 +1,9 @@
+{% extends "auctions/layout.html" %}
+{% block title %}
+Watchlist!!!
+{% endblock %}
+{% block body%}
+{% for item in categ %}
+<li><a href="category/{{item.category}}">{{item.category}}</a></li>
+{% endfor %}
+{% endblock %}

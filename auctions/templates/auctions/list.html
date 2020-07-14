@@ -1,0 +1,47 @@
+{%extends 'auctions/layout.html'%}
+{% block title%}
+{{listing.title}}
+{% endblock%}
+{% block body%}
+<h1>{{listing.title}}</h1>
+{{listing.status}}
+{% if listing.status %}
+{%if user.is_authenticated%}
+{%if watchlist%}
+<li><a href="/watchlist/{{listing.id}}/del">Remove from watch list</a></li>
+{%else%}
+<li><a href="/watchlist/{{listing.id}}/add">Add to watch list</a></li>
+{% endif %}
+<li><img src="{{listing.url}}" alt=""></li>
+{%endif%}
+{% if listing.created_by == request.user%}
+<form action="/close/{{listing.id}}">
+    {% csrf_token %}
+<input type="submit" value="Close Bidding" class="danger">
+</form>
+{% endif %}
+<h3>Add a Bid</h3>
+<h5>current price={{ max_bid.bid__max }}</h5>
+{% with x=max_bid.bid__max %}
+<form action="/bid/add/{{listing.id}}" method="post">
+    {% csrf_token %}
+<input type="number" name='bid' min='{{x}}'>
+<input type="submit">
+</form>
+{% endwith %}
+<h3>Add Comments</h3>
+<form action="/comment/new" method="post">
+    {% csrf_token %}
+    <textarea name="comment" id="" cols="50" rows="5"></textarea>
+    <input type="hidden" name='id' value="{{listing.id}}">
+    <input type="submit">
+</form>
+{%for comment in comments%}
+<li>{{comment}}</li>
+{% endfor %}
+{% else %}
+<h2>Auction is completet for this item</h2>
+<h2>winner id {{listing.winner}}</h2>
+{% endif %}
+
+{% endblock %}
